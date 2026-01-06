@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+    
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # Загружаем переменные из .env
+
+  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u#&3bpg&m@jwg$_%$h*7m$$4jt)s@#x78--gap(+he5n&!vesk'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -118,7 +123,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Ticketmaster API
-TM_API_KEY = ' 	ZicgW2f61h7G2khuzfTrK9uxS6DkMeB6'
+TM_API_KEY = os.getenv('TM_API_KEY')
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
