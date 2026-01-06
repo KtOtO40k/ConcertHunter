@@ -1,0 +1,30 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <h2 class="card-title">Подписка</h2>
+                
+                {% if artist.image_url %}
+                    <img src="{{ artist.image_url }}" class="rounded mb-3" style="max-height: 200px;">
+                {% endif %}
+                
+                <h4>{{ artist.name }}</h4>
+                <p class="text-muted">Введите город, где вы хотите отслеживать концерты.</p>
+
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.city }}
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Подтвердить подписку</button>
+                </form>
+                
+                <a href="{% url 'search' %}" class="btn btn-link mt-2">Отмена</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

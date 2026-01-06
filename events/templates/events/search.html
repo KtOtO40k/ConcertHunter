@@ -1,0 +1,39 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="text-center mb-4">Поиск артистов</h1>
+        
+        <!-- Форма поиска -->
+        <form method="get" class="d-flex gap-2 mb-5">
+            {{ form.artist_name }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+        <!-- Результаты -->
+        {% if results %}
+            <h3>Результаты:</h3>
+            <div class="list-group">
+                {% for artist in results %}
+                <div class="list-group-item d-flex gap-3 align-items-center">
+                    {% if artist.image_url %}
+                        <img src="{{ artist.image_url }}" alt="{{ artist.name }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 5px;">
+                    {% endif %}
+                    
+                    <div class="flex-grow-1">
+                        <h5 class="mb-0">{{ artist.name }}</h5>
+                        <small class="text-muted">ID: {{ artist.tm_id }}</small>
+                    </div>
+
+                    <!-- Кнопка подписаться (пока просто ссылка) -->
+                    <a href="{% url 'subscribe' artist.tm_id %}" class="btn btn-outline-success btn-sm">Подписаться</a>
+                </div>
+                {% endfor %}
+            </div>
+        {% elif request.GET.artist_name %}
+            <div class="alert alert-warning">Ничего не найдено :(</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
