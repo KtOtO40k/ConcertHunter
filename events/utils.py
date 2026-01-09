@@ -116,11 +116,20 @@ def get_tm_events(artist_tm_id, city):
             # ----------------------------
 
             ticket_status = event_item.get('dates', {}).get('status', {}).get('code', 'unknown')
+            start_dates = event_item.get('dates', {}).get('start', {})
+            event_date_str = start_dates.get('dateTime')
 
+            # Если точного времени нет, берем дату и добавляем полночь
+            if not event_date_str:
+                local_date = start_dates.get('localDate')
+                if local_date:
+                    event_date_str = f"{local_date}T00:00:00Z"
+                else:
+                    continue # Если даты вообще нет, пропускаем
             events_list.append({
                 'tm_event_id': event_item['id'],
                 'name': event_item['name'],
-                'date': event_item['dates']['start']['dateTime'],
+                'date': event_date_str,
                 'venue_name': venue_name,
                 'city': final_city, # <-- Сохраняем чистый английский
                 'latitude': latitude,
